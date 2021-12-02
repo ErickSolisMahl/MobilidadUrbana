@@ -12,7 +12,7 @@ from agents import Car, Traffic_light, Sidewalk
 # StagedActivation has a self.time of floa
 
 class Street(Model):
-  def __init__(self, height = 13, width = 13, initial_population = 2):
+  def __init__(self, height = 13, width = 13, initial_population = 1):
 
     # Set parameters
     self.height = height
@@ -32,7 +32,7 @@ class Street(Model):
     for i in range (self.initial_population):
       x = self.random.randrange(0,5)
       y = 5
-      length = 1
+      length = 0
       speed = 1
       waiting_time = 0
       orientation = 0
@@ -52,7 +52,7 @@ class Street(Model):
     for i in range (0,1):
       x = 6
       y = 12
-      length = 1
+      length = 0
       speed = 1
       waiting_time = 0
       orientation = 1
@@ -66,26 +66,22 @@ class Street(Model):
     for i in range(0,1):
       x = 5
       y = 5
-      red_light = True
-      yellow_light = False
-      green_light = False
+      light = 0
       working_time = 0
       orientation = 0
 
-      light =  Traffic_light((x,y), self, False, red_light, yellow_light, green_light, working_time, orientation)
+      light =  Traffic_light((x,y), self, False, light, working_time, orientation)
       self.grid.place_agent(light, (x,y))
       self.schedule.add(light)
 
     for i in range(0,1):
       x = 6
       y = 6
-      red_light = True
-      yellow_light = False
-      green_light = False
+      light = 0
       working_time = 0
       orientation = 1
 
-      light =  Traffic_light((x,y), self, False, red_light, yellow_light, green_light, working_time, orientation)
+      light =  Traffic_light((x,y), self, False, light, working_time, orientation)
       self.grid.place_agent(light, (x,y))
       self.schedule.add(light)
       

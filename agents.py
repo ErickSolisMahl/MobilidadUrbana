@@ -11,55 +11,19 @@ class Car(Agent):
     self.waiting_time = waiting_time
     self.orientation = orientation
 
-    
-  def maximum_distance(pos_1, pos_2):
-    x1, y1 = pos_1
-    x2, y2 = pos_2
-    dx = x1 - x2
-    dy = y1 - y2
-
-    print("")
-
-  def minimum_distance(pos_1, pos_2):
-    x1, y1 = pos_1
-    x2, y2 = pos_2
-    dx = x1 - x2
-    dy = y1 - y2
-
   def move(self):
   
-    #next_moves = self.model.grid.get_neighborhood(self.pos, self.moore, True)
-    next_move = (self.pos[0] + 1, self.pos[1])
-    this_cell = self.model.grid.get_cell_list_contents([self.pos])
-    next_cell = self.model.grid.get_cell_list_contents([next_move])
-    
-  
-    #check if there is a Light in the next move
     if self.orientation == 0:
-      #print("Estoy en",self.pos)
-      for agent in next_cell:
-        if type(agent) is Car:
-          print("Hay un Carro")
-          
-        if type(agent) is Traffic_light:
-          #print("Posicion",self.pos)
-          print("Hay un semaforo en ", agent.pos)
-          self.check_light()
-          return
-        else:
-          print("Puedo avanzar!")
+      next_move = (self.pos[0] + 1, self.pos[1])
       self.model.grid.move_agent(self, next_move)
-        
-         
-          
 
-    elif self.orientation == 1:
-      #print(self.pos)
+    if self.orientation == 1:
       next_move = (self.pos[0], self.pos[1] - 1)
       self.model.grid.move_agent(self, next_move)
 
 
   def check_light(self):
+    
     this_cell = self.model.grid.get_cell_list_contents([self.pos])
     next_move = (self.pos[0] + 1, self.pos[1])
     next_cell = self.model.grid.get_cell_list_contents([next_move])
@@ -75,6 +39,56 @@ class Car(Agent):
             print("Es verde")
             self.model.grid.move_agent(self, next_move)
   
+  def check_next_cell(self):
+    print("Estoy checando que hay enfrente")
+
+    if self.orientation == 0:
+      print("Este")
+      next_cell_position_este = (self.pos[0] + 1, self.pos[1])
+      next_cell_contents_este = self.model.grid.get_cell_list_contents([next_cell_position_este])   
+
+      for agent in next_cell_contents_este:
+        print("checando que hay en la celda de enfrete")
+        if type(agent) is Car:
+          print("Hay un carro")
+
+        if type(agent) is Traffic_light:
+          if next_cell_contents_este[0].light == 0:
+            print("Semaforo Este Rojo")
+            self.stop()
+
+          elif next_cell_contents_este[0].light == 1:
+            print("Semaforo Este Verde")
+            self.move()
+
+    else:
+      print("No hay nada lado Este")
+      self.move()
+        
+    if self.orientation == 1:
+      print("Oeste")
+      next_cell_position_norte = (self.pos[0] , self.pos[1] - 1)
+      next_cell_contents_norte = self.model.grid.get_cell_list_contents([next_cell_position_norte])
+          
+      for agent in next_cell_contents_norte:
+        if type(agent) is Car:
+          print("Hay un Carro calle Norte")
+            
+        if type(agent) is Traffic_light:
+          if next_cell_contents_norte[0].light == 0:
+            print("Semaforo Norte Rojo")
+            self.stop()
+            
+          elif next_cell_contents_norte[0].light == 1:
+            print("Semaforo Norte Verde")
+            self.move()
+            
+    else:
+      print("No hay nada lado Norte")
+      self.move()
+                    
+        
+  
 
   def stop(self):
     print(" En espera")
@@ -82,17 +96,16 @@ class Car(Agent):
     print("Tiempo en espera", self.waiting_time)
 
   def step(self):
-    self.move()
+    #self.move()
+    self.check_next_cell()
   
 
 
 class Traffic_light(Agent):
-  def __init__(self,pos, model, moore = False, red_light = True, yellow_light = False, green_light = False, working_time = 0, orientation = 0):
+  def __init__(self,pos, model, moore = False, light = 0, working_time = 0, orientation = 0):
     super().__init__(pos,model)
     self.pos = pos
-    self.red_light = red_light
-    self.yellow_light = yellow_light
-    self.green_light = green_light
+    self.light = 0  # 0 Red, 1 Green
     self.working_time = working_time
     self.orientation = orientation
 

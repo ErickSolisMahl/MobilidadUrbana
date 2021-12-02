@@ -43,7 +43,7 @@ def agent_portrayal(agent):
     
     elif agent.orientation == 1:
       portrayal["Shape"] = "resources/sidewalk_B.png"
-      portrayal["scale"] = 2.4
+      portrayal["scale"] = 1.5
       portrayal["Layer"] = "Sidewalk"
 
 
