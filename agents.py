@@ -100,8 +100,6 @@ class Car(Agent):
   def step(self):
     self.check_next_cell()
    
-  
-
 
 class Traffic_light(Agent):
   def __init__(self,pos, model, moore = False, light = 0, working_time = 0, orientation = 0):
@@ -131,10 +129,11 @@ class Traffic_light(Agent):
       trafic_list = self.model.grid.get_cell_list_contents(list)
       count = len(trafic_list)
       for car in trafic_list:
-        self.working_time = car.waiting_time
+        
+        car_time = car.waiting_time
         print("Car waiting Time Este: ",car.waiting_time)
-        times.append(self.working_time)
-        total_time += self.working_time
+        times.append(car_time)
+        total_time += car_time
         
   
       
@@ -179,18 +178,6 @@ class Traffic_light(Agent):
         
       
     
-    # if time_este > time_norte:
-    #   if self.orientation == 0:
-    #       self.green_light()
-      
-    #   if self.orientation == 1:
-    #       self.light = 0
-    # else:
-    #   if self.orientation == 0:
-    #       self.light = 0
-      
-    #   if self.orientation == 1:
-    #       self.light = 1
           
 
 

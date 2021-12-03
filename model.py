@@ -33,7 +33,7 @@ class Street(Model):
       x = self.random.randrange(0,5)
       y = 5
       length = 0
-      can_move = True
+      can_move = False
       waiting_time = 0
       orientation = 0
       #is_the_cell_empty = self.grid.is_cell_empty([x,y])
@@ -51,9 +51,9 @@ class Street(Model):
   # Create car
     for i in range (0,1):
       x = 6
-      y = 12
+      y = self.random.randrange(6, 12)
       length = 0
-      can_move = True
+      can_move = False
       waiting_time = 0
       orientation = 1
       
